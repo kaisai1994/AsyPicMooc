@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
         protected List<NewsBean> doInBackground(String... params) {
             return getJsonData(params[0]);
         }
+
+        @Override
+        protected void onPostExecute(List<NewsBean> newsBeen) {
+            super.onPostExecute(newsBeen);
+            NewsAdapter adapter = new NewsAdapter(MainActivity.this,newsBeen,mListView);
+            mListView.setAdapter(adapter);
+
+        }
     }
 
     private List<NewsBean> getJsonData(String param) {
@@ -48,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0;i <jsonarray.length();i++)
             {
                 jsonObject = jsonarray.getJSONObject(i);
+                newsBean = new NewsBean();
                 newsBean.setNewsIconUrl(jsonObject.getString("picSmall"));
                 newsBean.setNewsTitle(jsonObject.getString("name"));
                 newsBean.setNewsContent(jsonObject.getString("description"));
